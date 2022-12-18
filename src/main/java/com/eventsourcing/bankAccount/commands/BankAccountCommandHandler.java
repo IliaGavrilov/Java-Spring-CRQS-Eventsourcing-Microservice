@@ -2,6 +2,9 @@ package com.eventsourcing.bankAccount.commands;
 
 
 import com.eventsourcing.bankAccount.domain.BankAccountAggregate;
+import com.eventsourcing.bankAccount.events.BalanceCreditedEvent;
+import com.eventsourcing.bankAccount.events.BalanceDebitedEvent;
+import com.eventsourcing.bankAccount.events.BalanceDepositedEvent;
 import com.eventsourcing.bankAccount.exceptions.InsufficientCreditException;
 import com.eventsourcing.bankAccount.exceptions.InsufficientFundsException;
 import com.eventsourcing.bankAccount.repository.BankAccountMongoRepository;
@@ -11,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -20,11 +24,10 @@ public class BankAccountCommandHandler implements BankAccountCommandService {
     private final EventStoreDB eventStoreDB;
     private final BankAccountMongoRepository mongoRepository;
 
-    public String handle(CreateBankAccountCommand command) {
+    public UUID handle(CreateBankAccountCommand command) {
         final var aggregate = new BankAccountAggregate(command.aggregateID());
         aggregate.createBankAccount(command.email());
         eventStoreDB.save(aggregate);
-
         log.info("(CreateBankAccountCommand) aggregate: {}", aggregate);
         return aggregate.getId();
     }
@@ -40,7 +43,7 @@ public class BankAccountCommandHandler implements BankAccountCommandService {
     @Override
     public void handle(DepositAmountCommand command) {
         final var aggregate = eventStoreDB.load(command.aggregateID(), BankAccountAggregate.class);
-        aggregate.depositBalance(command.amount(), aggregate);
+        aggregate.updateBalance(command.amount(), aggregate, BalanceDepositedEvent.BALANCE_DEPOSITED);
         eventStoreDB.save(aggregate);
         log.info("(DepositAmountCommand) aggregate: {}", aggregate);
     }
@@ -49,7 +52,7 @@ public class BankAccountCommandHandler implements BankAccountCommandService {
     public void handle(CreditAmountCommand command) {
         checkPendingCreditExceedsOverdraftLimit(command);
         final var aggregate = eventStoreDB.load(command.aggregateID(), BankAccountAggregate.class);
-        aggregate.creditBalance(command.amount(), aggregate);
+        aggregate.updateBalance(command.amount(), aggregate, BalanceCreditedEvent.BALANCE_CREDITED);
         eventStoreDB.save(aggregate);
         log.info("(CreditAmountCommand) aggregate: {}", aggregate);
     }
@@ -57,7 +60,7 @@ public class BankAccountCommandHandler implements BankAccountCommandService {
     public void handle(DebitAmountCommand command) {
         checkPendingDebitExceedsOverdraftLimit(command);
         final var aggregate = eventStoreDB.load(command.aggregateID(), BankAccountAggregate.class);
-        aggregate.debitBalance(command.amount(), aggregate);
+        aggregate.updateBalance(command.amount(), aggregate, BalanceDebitedEvent.BALANCE_DEBITED);
         eventStoreDB.save(aggregate);
         log.info("(DebitAmountCommand) aggregate: {}", aggregate);
     }

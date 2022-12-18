@@ -14,11 +14,11 @@ databaseChangeLog:
                       - primaryKey: true
                 - column:
                     name: aggregate_id
-                    type: varchar(250)
+                    type: uuid
+                    defaultValueComputed: uuid_generate_v4()
                     constraints:
                       - notNull: true
                       - unique: true
-                      - check: aggregate_id <> ''
                 - column:
                     name: aggregate_type
                     type: varchar(250)

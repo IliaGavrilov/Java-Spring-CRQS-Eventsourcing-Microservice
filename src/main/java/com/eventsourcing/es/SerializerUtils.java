@@ -1,9 +1,7 @@
 package com.eventsourcing.es;
 
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -12,8 +10,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 
 public final class SerializerUtils {
 
@@ -37,7 +33,6 @@ public final class SerializerUtils {
     public static <T> T deserializeFromJsonBytes(final byte[] jsonBytes, final Class<T> valueType) {
         try {
             return objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).readValue(jsonBytes, valueType);
-//            return objectMapper.readValue(jsonBytes, valueType);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -50,23 +45,4 @@ public final class SerializerUtils {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
-
-//    public static HashMap<String, byte[]> deserializeEventsMetadata(final byte[] metaData) {
-//        final var tr = new TypeReference<HashMap<String, byte[]>>() {
-//        };
-//        try {
-//            return objectMapper.readValue(metaData, tr);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e.getMessage(), e);
-//        }
-//    }
-//
-//    public static byte[] serializeEventsMetadata(final HashMap<String, byte[]> metaData) {
-//        try {
-//            final var valueAsString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(metaData);
-//            return valueAsString.getBytes(StandardCharsets.UTF_8);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e.getMessage(), e);
-//        }
-//    }
 }

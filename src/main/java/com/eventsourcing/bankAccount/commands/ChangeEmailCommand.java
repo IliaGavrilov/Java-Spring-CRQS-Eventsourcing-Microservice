@@ -1,4 +1,6 @@
 package com.eventsourcing.bankAccount.commands;
 
-public record ChangeEmailCommand(String aggregateID, String newEmail) {
+import java.util.UUID;
+
+public record ChangeEmailCommand(UUID aggregateID, String newEmail) {
 }

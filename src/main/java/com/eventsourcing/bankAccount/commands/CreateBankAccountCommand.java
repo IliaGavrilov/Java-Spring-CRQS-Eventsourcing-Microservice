@@ -1,4 +1,6 @@
 package com.eventsourcing.bankAccount.commands;
 
-public record CreateBankAccountCommand(String aggregateID, String email) {
+import java.util.UUID;
+
+public record CreateBankAccountCommand(UUID aggregateID, String email) {
 }

@@ -5,6 +5,8 @@ import com.eventsourcing.es.BaseEvent;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class EmailChangedEvent extends BaseEvent {
     public static final String EMAIL_CHANGED = "EMAIL_CHANGED";
@@ -13,7 +15,7 @@ public class EmailChangedEvent extends BaseEvent {
     private String newEmail;
 
     @Builder
-    public EmailChangedEvent(String aggregateId, String newEmail) {
+    public EmailChangedEvent(UUID aggregateId, String newEmail) {
         super(aggregateId);
         this.newEmail = newEmail;
     }

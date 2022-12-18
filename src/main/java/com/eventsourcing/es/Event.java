@@ -13,14 +13,14 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event<T extends Event<T, D>, D> {
 
     @Id
     @Column(name="event_id", nullable = false)
     private UUID id;
 
     @Column(name="aggregate_id", nullable = false)
-    private String aggregateId;
+    private UUID aggregateId;
 
     @Column(name="event_type", nullable = false)
     private String eventType;
@@ -52,7 +52,7 @@ public class Event {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", aggregateId='" + aggregateId + '\'' +
+                ", aggregateId='" + aggregateId.toString() + '\'' +
                 ", eventType='" + eventType + '\'' +
                 ", aggregateType='" + aggregateType + '\'' +
                 ", version=" + version + '\'' +

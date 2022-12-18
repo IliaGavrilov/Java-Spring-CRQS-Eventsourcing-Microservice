@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-extensions
+      author: me
+      changes:
+        - createExtension:
+            extensionName: citext
+        - createExtension:
+            extensionName: uuid-ossp

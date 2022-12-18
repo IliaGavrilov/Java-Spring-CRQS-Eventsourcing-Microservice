@@ -1,0 +1,50 @@
+databaseChangeLog:
+    - changeSet:
+        id: create-snapshots-table
+        author: me
+        changes:
+          - createTable:
+              tableName: snapshots
+              columns:
+                - column:
+                    name: snapshot_id
+                    type: uuid
+                    defaultValueComputed: uuid_generate_v4()
+                    constraints:
+                      - primaryKey: true
+                - column:
+                    name: aggregate_id
+                    type: varchar(250)
+                    constraints:
+                      - notNull: true
+                      - unique: true
+                      - check: aggregate_id <> ''
+                - column:
+                    name: aggregate_type
+                    type: varchar(250)
+                    constraints:
+                      - notNull: true
+                      - check: aggregate_type <> ''
+                - column:
+                    name: data
+                    type: bytea
+                - column:
+                    name: metadata
+                    type: bytea
+                - column:
+                    name: version
+                    type: serial
+                    constraints:
+                      - notNull: true
+                - column:
+                    name: timestamp
+                    type: timestamp
+                    defaultValueComputed: CURRENT_TIMESTAMP
+          - createIndex:
+              indexName: aggregate_id_aggregate_snapshots_idx
+              tableName: snapshots
+              columns:
+                - column:
+                    name: aggregate_id
+                - column:
+                    name: version

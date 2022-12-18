@@ -1,0 +1,54 @@
+databaseChangeLog:
+    - changeSet:
+        id: create-events-table-indices
+        author: me
+        changes:
+          - createIndex:
+              indexName: aggregate_id_aggregate_version_idx
+              tableName: events
+              columns:
+                - column:
+                    name: aggregate_id
+                - column:
+                    name: version
+          - createTable:
+              tableName: events_partition_hash_1
+              columns:
+                - column:
+                    name: event_id
+                    type: uuid
+                    defaultValueComputed: uuid_generate_v4()
+                - column:
+                    name: aggregate_id
+                    type: varchar(250)
+                    constraints:
+                      - notNull: true
+                      - check: aggregate_id <> ''
+                - column:
+                    name: aggregate_type
+                    type: varchar(250)
+                    constraints:
+                      - notNull: true
+                      - check: aggregate_type <> ''
+                - column:
+                    name: event_type
+                    type: varchar(250)
+                    constraints:
+                      - notNull: true
+                      - check: event_type <> ''
+                - column:
+                    name: data
+                    type: bytea
+                - column:
+                    name: metadata
+                    type: bytea
+                - column:
+                    name: version
+                    type: serial
+                    constraints:
+                      - notNull: true
+                - column:
+                    name: timestamp
+                    type: timestamp
+                    defaultValueComputed: CURRENT_TIMESTAMP
+              primaryKey: event

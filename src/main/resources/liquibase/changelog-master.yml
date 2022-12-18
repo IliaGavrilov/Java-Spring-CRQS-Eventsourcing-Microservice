@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/db/1-create-extensions.yml
+  - include:
+      file: liquibase/db/2-drop-tables.yml
+  - include:
+      file: liquibase/db/3-create-events-table.yml
+  - include:
+      file: liquibase/db/4-create-events-table-indices.yml
+  - include:
+      file: liquibase/db/5-create-snapshots-table.yml

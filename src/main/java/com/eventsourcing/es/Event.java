@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event<T extends Event<T, D>, D> {
 
     @Id
     @Column(name="event_id", nullable = false)

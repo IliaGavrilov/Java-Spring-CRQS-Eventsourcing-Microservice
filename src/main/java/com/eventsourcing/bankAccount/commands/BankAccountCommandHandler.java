@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,7 +24,7 @@ public class BankAccountCommandHandler implements BankAccountCommandService {
     private final EventStoreDB eventStoreDB;
     private final BankAccountMongoRepository mongoRepository;
 
-    public String handle(CreateBankAccountCommand command) {
+    public UUID handle(CreateBankAccountCommand command) {
         final var aggregate = new BankAccountAggregate(command.aggregateID());
         aggregate.createBankAccount(command.email());
         eventStoreDB.save(aggregate);

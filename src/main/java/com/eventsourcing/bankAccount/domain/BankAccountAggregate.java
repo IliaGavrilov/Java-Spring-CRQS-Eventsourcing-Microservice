@@ -9,6 +9,7 @@ import com.eventsourcing.es.exceptions.InvalidEventTypeException;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -18,7 +19,8 @@ import java.math.BigDecimal;
 public class BankAccountAggregate extends AggregateRoot {
 
     public static final String AGGREGATE_TYPE = "BankAccountAggregate";
-    public BankAccountAggregate(String id) {
+
+    public BankAccountAggregate(UUID id) {
         super(id, AGGREGATE_TYPE);
     }
 
@@ -124,7 +126,7 @@ public class BankAccountAggregate extends AggregateRoot {
                 ", credit=" + credit +
                 ", creditLine=" + creditLine +
                 ", overdraftLimit=" + overdraftLimit +
-                ", id='" + id + '\'' +
+                ", id='" + id.toString() + '\'' +
                 ", type='" + type + '\'' +
                 ", version=" + version +
                 ", changes=" + changes.size() +

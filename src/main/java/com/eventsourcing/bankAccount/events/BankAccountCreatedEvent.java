@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 public class BankAccountCreatedEvent extends BaseEvent {
@@ -22,7 +23,7 @@ public class BankAccountCreatedEvent extends BaseEvent {
 //    }
 
     @Builder
-    public BankAccountCreatedEvent(String aggregateId, BigDecimal amount, String email, BigDecimal balance, BigDecimal debit, BigDecimal credit, BigDecimal creditLine, BigDecimal overdraftLimit) {
+    public BankAccountCreatedEvent(UUID aggregateId, BigDecimal amount, String email, BigDecimal balance, BigDecimal debit, BigDecimal credit, BigDecimal creditLine, BigDecimal overdraftLimit) {
         super(aggregateId, email, balance, debit, credit, creditLine, overdraftLimit);
         this.email = email;
         this.amount = amount;

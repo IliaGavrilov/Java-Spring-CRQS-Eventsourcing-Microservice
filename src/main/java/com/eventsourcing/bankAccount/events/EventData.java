@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class EventData<T extends Event<T, ?>> extends BaseEvent {
     private BigDecimal amount;
 
     @Builder
-    public EventData(String aggregateId, BigDecimal amount, String email, BigDecimal balance, BigDecimal debit, BigDecimal credit, BigDecimal creditLine, BigDecimal overdraftLimit) {
+    public EventData(UUID aggregateId, BigDecimal amount, String email, BigDecimal balance, BigDecimal debit, BigDecimal credit, BigDecimal creditLine, BigDecimal overdraftLimit) {
         super(aggregateId, email, balance, debit, credit, creditLine, overdraftLimit);
         this.amount = amount;
     }

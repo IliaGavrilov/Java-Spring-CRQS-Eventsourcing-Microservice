@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "/api/account/info")
 @Slf4j
@@ -21,7 +23,7 @@ public class BankAccountInfoController {
     private final BankAccountQueryService queryService;
 
     @GetMapping("{aggregateId}")
-    public BankAccountResponseDTO getBankAccount(@PathVariable String aggregateId) {
+    public BankAccountResponseDTO getBankAccount(@PathVariable UUID aggregateId) {
         final var result = queryService.handle(new GetBankAccountByIDQuery(aggregateId));
         log.info("Get bank account result: {}", result);
         return result;
@@ -46,7 +48,7 @@ public class BankAccountInfoController {
     }
 
     @GetMapping("/transactions/{aggregateId}")
-    public Page<BankAccountTransactionsResponseDTO> getTransactions(@PathVariable String aggregateId, @RequestParam String date,
+    public Page<BankAccountTransactionsResponseDTO> getTransactions(@PathVariable UUID aggregateId, @RequestParam String date,
                                                                     @RequestParam(defaultValue = "0") int page,
                                                                     @RequestParam(defaultValue = "20") int size) {
         final var result = queryService.handle(aggregateId, date, page, size);

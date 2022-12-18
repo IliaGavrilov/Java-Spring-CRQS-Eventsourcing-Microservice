@@ -1,7 +1,9 @@
 package com.eventsourcing.bankAccount.commands;
 
+import java.util.UUID;
+
 public interface BankAccountCommandService {
-    String handle(CreateBankAccountCommand command);
+    UUID handle(CreateBankAccountCommand command);
 
     void handle(ChangeEmailCommand command);
 

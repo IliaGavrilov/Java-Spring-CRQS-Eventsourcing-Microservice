@@ -39,7 +39,7 @@ public class EventStore implements EventStoreDB {
 
     @Override
     @Transactional(readOnly = true)
-    public <T extends AggregateRoot> T load(String aggregateId, Class<T> aggregateType) {
+    public <T extends AggregateRoot> T load(UUID aggregateId, Class<T> aggregateType) {
         final Optional<Snapshot> snapshot = this.loadSnapshot(aggregateId);
         final var aggregate = this.getSnapshotFromClass(snapshot, aggregateId, aggregateType);
         final List<Event> events = this.loadEvents(aggregateId, aggregate.getVersion());
@@ -69,7 +69,7 @@ public class EventStore implements EventStoreDB {
     }
 
     @Override
-    public List<Event> loadEvents(String aggregateId, long version) {
+    public List<Event> loadEvents(UUID aggregateId, long version) {
         return eventRepository.findByAggregateIdAndVersionGreaterThanEqualOrderByVersionAsc(aggregateId, version);
     }
 
@@ -87,8 +87,8 @@ public class EventStore implements EventStoreDB {
     }
 
 
-    private void handleConcurrency(String aggregateId) {
-        Optional<String> aggregateIdRec = eventRepository.findAllByAggregateId(aggregateId)
+    private void handleConcurrency(UUID aggregateId) {
+        Optional<UUID> aggregateIdRec = eventRepository.findAllByAggregateId(aggregateId)
                     .stream()
                     .max(Comparator.comparingLong(Event::getVersion))
                     .map(Event::getAggregateId);
@@ -100,19 +100,19 @@ public class EventStore implements EventStoreDB {
         log.info("(handleConcurrency) aggregateID for lock: {}", aggregateIdRec.get());
     }
 
-    private Optional<Snapshot> loadSnapshot(String aggregateId) {
+    private Optional<Snapshot> loadSnapshot(UUID aggregateId) {
         return snapshotRepository.findByAggregateId(aggregateId);
     }
 
-    private <T extends AggregateRoot> T getAggregate(final String aggregateId, final Class<T> aggregateType) {
+    private <T extends AggregateRoot> T getAggregate(final UUID aggregateId, final Class<T> aggregateType) {
         try {
-            return aggregateType.getConstructor(String.class).newInstance(aggregateId);
+            return aggregateType.getConstructor(UUID.class).newInstance(aggregateId);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    private <T extends AggregateRoot> T getSnapshotFromClass(Optional<Snapshot> snapshot, String aggregateId, Class<T> aggregateType) {
+    private <T extends AggregateRoot> T getSnapshotFromClass(Optional<Snapshot> snapshot, UUID aggregateId, Class<T> aggregateType) {
         if (snapshot.isEmpty()) {
             final var defaultSnapshot = EventSourcingUtils.snapshotFromAggregate(getAggregate(aggregateId, aggregateType));
             return EventSourcingUtils.aggregateFromSnapshot(defaultSnapshot, aggregateType);
@@ -122,8 +122,8 @@ public class EventStore implements EventStoreDB {
 
 
     @Override
-    public Boolean exists(String aggregateId) {
-        Optional<String> aggregateIdRec = eventRepository.findAggregateId(aggregateId);
+    public Boolean exists(UUID aggregateId) {
+        Optional<UUID> aggregateIdRec = eventRepository.findAggregateId(aggregateId);
         if (aggregateIdRec.isPresent()) {
             log.info("aggregate exists id: {}", aggregateIdRec.get());
             return true;

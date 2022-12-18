@@ -8,6 +8,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -17,10 +18,10 @@ import java.math.BigDecimal;
 public class BankAccountDocument {
 
     @BsonProperty(value = "_id")
-    private String id;
+    private UUID id;
 
     @BsonProperty(value = "aggregateId")
-    private String aggregateId;
+    private UUID aggregateId;
 
     @BsonProperty(value = "email")
     private String email;

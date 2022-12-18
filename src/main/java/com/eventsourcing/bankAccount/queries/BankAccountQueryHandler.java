@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Slf4j
@@ -64,7 +65,7 @@ public class BankAccountQueryHandler implements BankAccountQueryService {
     }
 
     @Override
-    public Page<BankAccountTransactionsResponseDTO> handle(String aggregateId, String date, int page, int size) {
+    public Page<BankAccountTransactionsResponseDTO> handle(UUID aggregateId, String date, int page, int size) {
         try {
             final var pageable = PageRequest.of(page, size);
             final var result = eventRepository.findAllByAggregateIdAndDate(aggregateId, date, pageable);

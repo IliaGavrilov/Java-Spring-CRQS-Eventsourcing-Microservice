@@ -23,7 +23,7 @@ public class Snapshot {
     private UUID id;
 
     @Column(name="aggregate_id", nullable = false)
-    private String aggregateId;
+    private UUID aggregateId;
 
     @Column(name="aggregate_type", nullable = false)
     private String aggregateType;
@@ -43,8 +43,8 @@ public class Snapshot {
     @Override
     public String toString() {
         return "Snapshot{" +
-                "snapshot_id=" + id +
-                ", aggregate_id='" + aggregateId + '\'' +
+                "snapshot_id=" + id.toString() +
+                ", aggregate_id='" + aggregateId.toString() + '\'' +
                 ", aggregate_type='" + aggregateType + '\'' +
                 ", data=" + data.length + " bytes" +
                 ", version=" + version +

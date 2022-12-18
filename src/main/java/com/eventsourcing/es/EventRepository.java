@@ -28,18 +28,18 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
         saveAll(events);
     }
 
-    List<Event> findByAggregateIdAndVersionGreaterThanEqualOrderByVersionAsc(String aggregateId, long version);
+    List<Event> findByAggregateIdAndVersionGreaterThanEqualOrderByVersionAsc(UUID aggregateId, long version);
 
     @Query("SELECT e FROM Event e WHERE e.aggregateId = :aggregateId")
-    List<Event> findAllByAggregateId(@Param("aggregateId") String aggregateId);
+    List<Event> findAllByAggregateId(@Param("aggregateId") UUID aggregateId);
 
     @Query("SELECT e.aggregateId FROM Event e WHERE e.aggregateId = :aggregateId")
-    Optional<String> findAggregateId(@Param("aggregateId") String aggregateId);
+    Optional<UUID> findAggregateId(@Param("aggregateId") UUID aggregateId);
 
     @Query(value = "SELECT * FROM public.events WHERE aggregate_id = :aggregateId AND date_trunc('day', timestamp) >= to_date(:date, 'YYYY-MM-DD')",
         countQuery = "SELECT count(*) FROM public.events WHERE aggregate_id = :aggregateId AND date_trunc('day', timestamp) >= to_date(:date, 'YYYY-MM-DD')",
         nativeQuery = true)
-    Page<Event> findAllByAggregateIdAndDate(@Param("aggregateId") String aggregateId, @Param("date") String date, Pageable pageable);
+    Page<Event> findAllByAggregateIdAndDate(@Param("aggregateId") UUID aggregateId, @Param("date") String date, Pageable pageable);
 
 }
 

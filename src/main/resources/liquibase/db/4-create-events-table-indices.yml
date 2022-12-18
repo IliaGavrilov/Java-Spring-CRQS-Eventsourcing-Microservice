@@ -20,10 +20,8 @@ databaseChangeLog:
                     defaultValueComputed: uuid_generate_v4()
                 - column:
                     name: aggregate_id
-                    type: varchar(250)
-                    constraints:
-                      - notNull: true
-                      - check: aggregate_id <> ''
+                    type: uuid
+                    defaultValueComputed: uuid_generate_v4()
                 - column:
                     name: aggregate_type
                     type: varchar(250)

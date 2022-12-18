@@ -7,12 +7,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface BankAccountMongoRepository extends MongoRepository<BankAccountDocument, String> {
 
-    Optional<BankAccountDocument> findByAggregateId(String aggregateId);
+    Optional<BankAccountDocument> findByAggregateId(UUID aggregateId);
 
-    void deleteByAggregateId(String aggregateId);
+    void deleteByAggregateId(UUID aggregateId);
 
     Page<BankAccountDocument> findByBalanceLessThan(BigDecimal balance, Pageable pageable);
 }

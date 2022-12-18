@@ -1,0 +1,25 @@
+databaseChangeLog:
+    - changeSet:
+        id: drop-table-events
+        author: me
+        preConditions:
+          onFail: MARK_RAN
+          tableExists:
+            tableName: events
+        comment: Remove events table - no longer needed
+        changes:
+          - dropTable:
+              tableName: events
+
+    - changeSet:
+        id: drop-table-snapshots
+        author: me
+        preConditions:
+          onFail: MARK_RAN
+          tableExists:
+            tableName: snapshots
+        comment: Remove snapshots table - no longer needed
+        changes:
+          - dropTable:
+              tableName: snapshots
+

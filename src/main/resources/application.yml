@@ -1,0 +1,63 @@
+spring:
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.yml
+    url: jdbc:postgresql://localhost:5432/microservices
+    user: postgres
+    password: postgres
+    enabled: true
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.StringOrBytesSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: microservice
+    bootstrap-servers: localhost:9093
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+  data:
+    mongodb:
+      authentication-database: admin
+      username: admin
+      port: '27017'
+      host: localhost
+      database: microservices
+      password: admin
+  application:
+    name: microservice
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/microservices
+    hikari:
+      maximum-pool-size: '30'
+      minimum-idle: '10'
+    username: postgres
+microservice:
+  kafka:
+    default-concurrency: '10'
+    groupId: es_microservice
+    topics:
+      bank-account-event-store: bank-account-event-store
+server:
+  tomcat:
+    accesslog:
+      enabled: 'true'
+  port: '8006'
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+logging:
+  level:
+    org:
+      apache:
+        kafka: warn
+  pattern:
+    console: '%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint}
+      %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan}
+      %clr(line:%L) %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'

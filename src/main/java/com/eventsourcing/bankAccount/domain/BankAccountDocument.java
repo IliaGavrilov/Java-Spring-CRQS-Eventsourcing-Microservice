@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -17,8 +19,8 @@ import java.util.UUID;
 @Document(collection = "bankAccounts")
 public class BankAccountDocument {
 
-    @BsonProperty(value = "_id")
-    private UUID id;
+    @Id
+    private ObjectId id;
 
     @BsonProperty(value = "aggregateId")
     private UUID aggregateId;

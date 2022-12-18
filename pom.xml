@@ -12,7 +12,7 @@
 
 	<groupId>com.eventsourcing</groupId>
 	<artifactId>SpringEventSourcing</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>SpringEventSourcing</name>
 	<description>Spring CQRS and EventSourcing</description>
 

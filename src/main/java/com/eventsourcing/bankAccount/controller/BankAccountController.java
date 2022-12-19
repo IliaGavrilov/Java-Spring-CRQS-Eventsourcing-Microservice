@@ -23,10 +23,10 @@ public class BankAccountController {
     private final BankAccountCommandService commandService;
 
     @PostMapping(path = "/create")
-    public UUID createBankAccount(@Valid @RequestBody CreateBankAccountRequestDTO dto) {
+    public String createBankAccount(@Valid @RequestBody CreateBankAccountRequestDTO dto) {
         final UUID id = commandService.handle(new CreateBankAccountCommand(UUID.randomUUID(), dto.email()));
         log.info("Created bank account id: {}", id);
-        return id;
+        return id.toString();
     }
 
     @PostMapping(path = "/deposit/{aggregateId}")

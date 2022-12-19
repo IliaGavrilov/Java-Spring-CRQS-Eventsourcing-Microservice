@@ -8,7 +8,7 @@
 * [Mongo Express](https://github.com/mongo-express/mongo-express) - Web-based MongoDB admin interface
 * [Kafka](https://spring.io/projects/spring-kafka) - Spring for Apache Kafka
 * [Kafdrop](https://github.com/obsidiandynamics/kafdrop) - Kafka Web UI
-* [PostgreSQL](https://www.postgresql.org/) - PostgreSQL database.
+* [PostgreSQL](https://www.postgresql.org/) - PostgreSQL database
 * [Docker](https://www.docker.com/) - Docker
 * [Liquibase](https://www.liquibase.org/) - Database migrations
 * [Swagger OpenAPI 3](https://springdoc.org/) - java library helps to automate the generation of API documentation
@@ -19,8 +19,10 @@
 * Mongo Express: http://localhost:8081/db/microservices/bankAccounts
 
 #### Local Run
-* docker-compose up
-* ./mvnw spring-boot:run
+```
+docker-compose up
+./mvnw spring-boot:run
+```
 
 ### Troubleshooting
 If you encounter a Liquibase error, try running CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; manually.
